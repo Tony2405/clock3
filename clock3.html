@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock1</title>
+    <style>
+        *   {margin: 0;
+            padding: 0;
+            box-sizing: border-box;}
+    </style>
+</head>
+<body>
+   
+    <script>"use strict"
+
+        let clock_face_diameter=400; // достаточно поменять только это число
+        let body = document.body;
+        let clock_face_center = clock_face_diameter/2;
+        let green_circle_diameter = clock_face_diameter*0.1;
+
+    let clock_face = document.createElement('div'); // создан диск циферблата 
+        body.appendChild(clock_face);
+        clock_face.style.backgroundColor="yellow";
+        clock_face.style.borderRadius="50%";
+        clock_face.style.width=clock_face_diameter +"px"; // часам нужен какой-то начальный размер
+        clock_face.style.height= clock_face_diameter + 'px'; // часы выглядят круглыми
+        clock_face.style.position='relative'; // позиционирование clock_face относительное
+    //находим координаты центра циферблата
+        let  clock_face_centerX = clock_face.offsetLeft+clock_face.offsetWidth/2;
+        let  clock_face_centerY = clock_face.offsetTop+clock_face.offsetHeight/2;
+       
+
+    // добавление в часы ячейки со временем в электр. формате
+    let digit_line = document.createElement("div"); 
+       
+        digit_line.style.width = clock_face.offsetWidth/3+'px'; // ширина задана отностительно всего циферблата (высота по цифрам внутри)
+        clock_face.appendChild(digit_line); //чтобы спозиционировать надо добавить его в родительский элемент
+        digit_line.style.position="absolute";
+        digit_line.style.zIndex = 4;
+        digit_line.style.left =clock_face_center - digit_line.offsetWidth/2+'px'; // по Х в серединку
+        digit_line.style.top = clock_face.offsetHeight/7*2+'px';                   // по У на 2/7 
+        let center_time = document.createElement('span'); // для центровки "по-инлайновому" добавлен спан
+        digit_line.appendChild(center_time);
+        digit_line.style.textAlign="center";
+        digit_line.style.fontFamily="Arial";
+        digit_line.style.color='#FF8800'
+        digit_line.style.fontSize= clock_face_diameter*0.06+'px';
+
+
+//секундная стрелка
+        let second_arrow = document.createElement('div'); // создаём и размещаем секундную стрелку
+            second_arrow.style.height = clock_face_diameter/2+'px';
+            second_arrow.style.width = clock_face_diameter/100+'px';
+            second_arrow.style.backgroundColor = "gold";
+            second_arrow.style.borderRadius= clock_face_diameter/150+'px';
+            second_arrow.style.position = 'absolute';
+            second_arrow.style.zIndex = '3';
+        clock_face.appendChild(second_arrow);
+            second_arrow.style.left = clock_face_center - second_arrow.offsetWidth/2 +'px';//положение секундной стрелки по Х
+            second_arrow.style.top = clock_face_center - second_arrow.offsetHeight*0.97+'px'; // положение по У
+//минутная стрелка
+        let minute_arrow = document.createElement('div'); // создаём и размещаем секундную стрелку
+        clock_face.appendChild(minute_arrow);
+            minute_arrow.style.height = clock_face.offsetWidth*0.45 +'px';
+            minute_arrow.style.width = clock_face_diameter/50+'px';
+            minute_arrow.style.backgroundColor = "grey";
+            minute_arrow.style.borderRadius = clock_face_diameter/100+'px';
+            minute_arrow.style.position = 'absolute';
+            minute_arrow.style.zIndex = '2';
+       
+            minute_arrow.style.left = clock_face_center - minute_arrow.offsetWidth/2 +'px';//положение секундной стрелки по Х
+            minute_arrow.style.top = clock_face_center - minute_arrow.offsetHeight*0.97 +'px'; // положение по У
+//часовая стрелка
+        let hour_arrow = document.createElement('div'); // создаём и размещаем секундную стрелку
+        clock_face.appendChild(hour_arrow);
+            hour_arrow.style.height = clock_face.offsetWidth*0.35 +'px';
+            hour_arrow.style.width = clock_face_diameter/30+'px';
+            hour_arrow.style.backgroundColor = "black";
+            hour_arrow.style.borderRadius= clock_face_diameter/75+'px';
+            hour_arrow.style.position = 'absolute';
+            hour_arrow.style.zIndex = '1';
+            hour_arrow.style.left = clock_face_center - hour_arrow.offsetWidth/2+'px';//положение секундной стрелки по Х
+            hour_arrow.style.top = clock_face_center - hour_arrow.offsetHeight*0.97 +'px'; // положение по У
+           
+
+         //надо разместить 12 кружочков на циферблате
+            let angle = 30; // начальный угол 0 соотв-т 12ти часам
+            let radius = clock_face_diameter/30*13;
+            for (let x=1; x <= 12; x++){ // нужно сделать 12 кружков
+
+            let green_circle = document.createElement('div'); //создаём, стилизуем и закидываем на циферблат 1 кружочек под цифры
+                   
+                clock_face.appendChild(green_circle);
+                green_circle.style.width = green_circle_diameter +'px';
+                green_circle.style.height = green_circle_diameter +'px';
+                let green_circle_CenterX = clock_face_center + radius*Math.sin(angle/180*Math.PI);
+                let green_circle_CenterY = clock_face_center - radius*Math.cos(angle/180*Math.PI);
+
+                green_circle.style.left=Math.round( green_circle_CenterX - green_circle.offsetWidth/2)+'px';
+                green_circle.style.top=Math.round( green_circle_CenterY - green_circle.offsetHeight/2)+'px';
+                let numer = document.createTextNode(x); // цифры можно взять прямо из переменной цикла (потом исправить 0 на 12)
+                green_circle.appendChild(numer);
+                green_circle.style.borderRadius = '50%';
+                green_circle.style.backgroundColor = 'green';
+                green_circle.style.position = 'absolute';
+                green_circle.style.fontFamily ="Arial";
+                green_circle.style.textAlign='center';
+                green_circle.style.fontSize = green_circle_diameter*0.5+'px';
+                green_circle.style.lineHeight='2';
+                
+                
+
+                angle+=30; // задан шаг 30 градусов
+            }
+                        
+// ОПИСАНИЕ ХОДА ЧАСОВ С УСТАНОВЛЕННЫМ ТАЙМЕРОМ
+    let today = new Date;
+    let digital_timer = setInterval(updateTime,1000);
+    function updateTime() {
+        setTimeout(updateTime,1020 -today.getMilliseconds());
+        let current_time=new Date(); // получаем объект с текущими датой и временем
+        var currTimeStr=formatDateTime(current_time); // тут вызывается функция с формат-м даты и времени, в арг-те объект класса new Date 
+        center_time.innerHTML= currTimeStr; //вывод отформатированного таймера в созданном спане
+        clockTicking(current_time);
+        };
+
+    function clockTicking(dt){
+        let hours=dt.getHours();
+        let minutes=dt.getMinutes();
+        let seconds=dt.getSeconds();
+        
+        let scd_degrees =  seconds*6; //или seconds*360/60
+        second_arrow.style.transformOrigin = "center 97%";
+        second_arrow.style.transform = 'rotate('+ scd_degrees +'deg)';  // нормлаьно тикает
+
+        let mnt_degrees = (minutes*6) + (0.1*seconds); // (лучше не придумал)
+        minute_arrow.style.transformOrigin = 'center 97%';    
+        minute_arrow.style.transform = 'rotate('+ mnt_degrees +'deg)';
+        
+        let hrs_degrees = hours*30+(0.5*minutes); //(360/12*hours) после 12 пойдёт по кругу и будет совпадать
+        hour_arrow.style.transformOrigin = 'center 97%';
+        hour_arrow.style.transform = 'rotate('+ hrs_degrees +'deg)';
+        }
+
+    function formatDateTime(dt) { //функция для форматирования времени (библиотечная)
+        var hours=dt.getHours();
+        var minutes=dt.getMinutes();
+        var seconds=dt.getSeconds();
+        return str0l(hours,2) + ':' + str0l(minutes,2) + ':' + str0l(seconds,2);
+    }
+
+    function str0l(val,len) {  // добавление нулей
+        var strVal=val.toString();
+        while ( strVal.length < len )
+            strVal='0'+strVal;
+        return strVal;};
+        //setTimeout(updateTime,1000 -today.getMilliseconds());
+        updateTime();
+        setTimeout(updateTime,1020 -today.getMilliseconds())
+    </script>
+    
+</body>
+</html>
