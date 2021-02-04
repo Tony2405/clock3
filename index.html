@@ -116,13 +116,15 @@
                         
 // ОПИСАНИЕ ХОДА ЧАСОВ С УСТАНОВЛЕННЫМ ТАЙМЕРОМ
     let today = new Date;
-    let digital_timer = setInterval(updateTime,1000);
-    function updateTime() {
-        setTimeout(updateTime,1020 -today.getMilliseconds());
+        
+               
+        updateTime();
+       function updateTime() {
         let current_time=new Date(); // получаем объект с текущими датой и временем
         var currTimeStr=formatDateTime(current_time); // тут вызывается функция с формат-м даты и времени, в арг-те объект класса new Date 
         center_time.innerHTML= currTimeStr; //вывод отформатированного таймера в созданном спане
         clockTicking(current_time);
+        setTimeout(updateTime,1020 - current_time.getMilliseconds());
         };
 
     function clockTicking(dt){
@@ -155,9 +157,7 @@
         while ( strVal.length < len )
             strVal='0'+strVal;
         return strVal;};
-        //setTimeout(updateTime,1000 -today.getMilliseconds());
-        updateTime();
-        setTimeout(updateTime,1020 -today.getMilliseconds())
+
     </script>
     
 </body>
